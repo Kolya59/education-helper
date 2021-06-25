@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Добро пожаловать в систему управления образовательным учреждением</h1>
+  <br>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label for="login">Login: </label>
+    <input id="login" type="text" formControlName="login">
+
+    <label for="password">Password: </label>
+    <input id="password" type="password" formControlName="password">
+
+    <button type="submit" [disabled]="!loginForm.valid">Login</button>
+  </form>
+</div>
