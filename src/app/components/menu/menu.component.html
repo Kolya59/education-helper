@@ -1,0 +1,24 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <a routerLink="/" routerLinkActive="active"
+      >Система управления образовательным учреждением</a
+    >
+    <span class="example-spacer"></span>
+    <div *ngIf="(user$ | async)?.status">
+      <label>Текущий пользователь</label>
+      <label>{{ (user$ | async)?.name }} ({{ (user$ | async)?.role }})</label>
+      <button mat-icon-button class="example-icon">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row *ngIf="(user$ | async)?.status">
+    <a routerLink="/students" routerLinkActive="active">Обущающиеся</a>
+    <a routerLink="/teachers" routerLinkActive="active">Преподаватели</a>
+    <a routerLink="/programs" routerLinkActive="active">Программы обучения</a>
+    <a routerLink="/lessons" routerLinkActive="active">Программы обучающихся</a>
+    <a routerLink="/schedule" routerLinkActive="active">Запись на занятия</a>
+    <a routerLink="/receipts" routerLinkActive="active">Квитанции</a>
+  </mat-toolbar-row>
+</mat-toolbar>

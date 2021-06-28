@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Store } from '@ngrx/store';
+import { IAppState } from '../../store/state/app.state';
+import { GetUser } from '../../store/actions/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +18,15 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
+    private store: Store<IAppState>,
     private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     console.log('LoginComponent INIT');
+    localStorage.removeItem('token');
+    this.store.dispatch(new GetUser());
   }
 
   onSubmit(): void {
@@ -39,6 +44,13 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (resp: any) => {
           console.log(resp);
+          if (!resp.token) {
+            alert(
+              'Возможно, у вас не хватает прав на данную систему. Обратитесь к администратору.'
+            );
+            return;
+          }
+          localStorage.setItem('token', resp.token);
           this.router.navigateByUrl('/students').then((r) => console.log(r));
         },
         (err: HttpErrorResponse) => {

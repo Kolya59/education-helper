@@ -1,1 +1,76 @@
-<p>students works!</p>
+<div>
+  <section>
+    <table mat-table class="student-table" [dataSource]="dataSource">
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        class="element-row"
+        (click)="selectStudent(row)"
+        [class.row-is-clicked]="isSelectedStudent(row)"
+        *matRowDef="let row; columns: columnsToDisplay"
+      ></tr>
+    </table>
+    <button mat-button (click)="addStudent()">Добавить обучающегося</button>
+  </section>
+  <mat-divider></mat-divider>
+  <section>
+    <form
+      class="student-form"
+      [formGroup]="studentForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <mat-form-field appearance="standard">
+        <mat-label>Фамилия ребенка</mat-label>
+        <input
+          matInput
+          placeholder="Фамилия ребенка"
+          formControlName="surname"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Имя ребенка</mat-label>
+        <input matInput placeholder="Имя ребенка" formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Дата рождения</mat-label>
+        <input
+          matInput
+          placeholder="Дата рождения"
+          formControlName="birthdate"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Имя отчество родителя</mat-label>
+        <input
+          matInput
+          placeholder="Имя отчество родителя"
+          formControlName="parent"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Контактный телефон</mat-label>
+        <input
+          matInput
+          placeholder="Контактный телефон"
+          formControlName="phone"
+        />
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" [disabled]="!studentForm.valid">
+        Сохранить
+      </button>
+    </form>
+  </section>
+</div>
