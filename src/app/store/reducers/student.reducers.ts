@@ -6,7 +6,7 @@ export const studentReducers = (
   action: StudentActions
 ): IStudentState => {
   switch (action.type) {
-    case EStudentActions.GetStudentSuccess:
+    case EStudentActions.SelectStudentSuccess:
       return {
         ...state,
         selectedStudent: action.payload,

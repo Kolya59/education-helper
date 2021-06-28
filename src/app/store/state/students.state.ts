@@ -2,7 +2,7 @@ import { IStudent } from '../../models/student.model';
 
 export interface IStudentState {
   students: IStudent[];
-  selectedStudent: IStudent;
+  selectedStudent: IStudent | null;
 }
 
 export const initialStudentState: IStudentState = {

@@ -21,6 +21,7 @@
 
 .row-is-clicked {
   font-weight: bold;
+  background: blue;
 }
 
 tr.element-row:not(.example-expanded-row):hover {

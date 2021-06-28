@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
 import { UserService } from '../../services/user/user.service';
 import { EUserActions, GetUser, GetUserSuccess } from '../actions/user.actions';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { IUser } from '../../models/user.model';
+import { AddError } from '../actions/error.actions';
 
 @Injectable()
 export class UserEffects {
@@ -14,7 +15,8 @@ export class UserEffects {
   getUser$ = this._actions.pipe(
     ofType<GetUser>(EUserActions.GetUser),
     switchMap(() => this._userService.getUser()),
-    switchMap((userHttp: IUser) => of(new GetUserSuccess(userHttp)))
+    switchMap((userHttp: IUser) => of(new GetUserSuccess(userHttp))),
+    catchError((error) => of(new AddError(error)))
   );
 
   constructor(

@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 import { IStudent } from '../../models/student.model';
 
 export enum EStudentActions {
-  GetStudent = '[Student] Get Student',
-  GetStudentSuccess = '[Student] Get Student Success',
+  SelectStudent = '[Student] Get Student',
+  SelectStudentSuccess = '[Student] Get Student Success',
 
   GetStudents = '[Student] Get Students',
   GetStudentsSuccess = '[Student] Get Students Success',
@@ -18,14 +18,14 @@ export enum EStudentActions {
   DeleteStudentSuccess = '[Student] Delete Student Success',
 }
 
-export class GetStudent implements Action {
-  public readonly type = EStudentActions.GetStudent;
-  constructor(public payload: IStudent) {}
+export class SelectStudent implements Action {
+  public readonly type = EStudentActions.SelectStudent;
+  constructor(public payload: IStudent | null) {}
 }
 
-export class GetStudentSuccess implements Action {
-  public readonly type = EStudentActions.GetStudentSuccess;
-  constructor(public payload: IStudent) {}
+export class SelectStudentSuccess implements Action {
+  public readonly type = EStudentActions.SelectStudentSuccess;
+  constructor(public payload: IStudent | null) {}
 }
 
 export class GetStudents implements Action {
@@ -68,8 +68,8 @@ export class DeleteStudentSuccess implements Action {
 }
 
 export type StudentActions =
-  | GetStudent
-  | GetStudentSuccess
+  | SelectStudent
+  | SelectStudentSuccess
   | GetStudents
   | GetStudentsSuccess
   | AddStudent

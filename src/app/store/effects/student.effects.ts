@@ -2,37 +2,48 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {
+  catchError,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 import {
   AddStudent,
   AddStudentSuccess,
   DeleteStudent,
   DeleteStudentSuccess,
   EStudentActions,
-  GetStudent,
+  SelectStudent,
   GetStudents,
   GetStudentsSuccess,
-  GetStudentSuccess,
+  SelectStudentSuccess,
   UpdateStudent,
   UpdateStudentSuccess,
 } from '../actions/student.actions';
 import { IStudent } from '../../models/student.model';
 import { selectStudentList } from '../selectors/students.selectors';
 import { StudentService } from '../../services/student/student.service';
+import { AddError } from '../actions/error.actions';
 
 @Injectable()
 export class StudentEffects {
   @Effect()
-  getStudent$ = this._actions.pipe(
-    ofType<GetStudent>(EStudentActions.GetStudent),
+  selectStudent$ = this._actions.pipe(
+    ofType<SelectStudent>(EStudentActions.SelectStudent),
     map((action) => action.payload),
     withLatestFrom(this._store.pipe(select(selectStudentList))),
-    switchMap(([id, students]) => {
-      const selectedUser = students.filter(
-        (student: IStudent) => student['Код ребенка'] === `${id}`
+    switchMap(([selected, students]) => {
+      if (!selected) {
+        return of(new SelectStudentSuccess(null));
+      }
+      const selectedStudent = students.filter(
+        (student: IStudent) =>
+          student['Код ребенка'] === `${selected['Код ребенка']}`
       )[0];
-      return of(new GetStudentSuccess(selectedUser));
+      return of(new SelectStudentSuccess(selectedStudent));
     })
   );
 
@@ -42,7 +53,8 @@ export class StudentEffects {
     switchMap(() => this._studentService.getStudents()),
     switchMap((studentsHttp: IStudent[]) =>
       of(new GetStudentsSuccess(studentsHttp))
-    )
+    ),
+    catchError((error) => of(new AddError(error)))
   );
 
   @Effect()
@@ -50,7 +62,8 @@ export class StudentEffects {
     ofType<AddStudent>(EStudentActions.AddStudent),
     map((action) => action.payload),
     switchMap((student) => this._studentService.addStudent(student)),
-    switchMap((student) => of(new AddStudentSuccess(student)))
+    switchMap((student) => of(new AddStudentSuccess(student))),
+    catchError((error) => of(new AddError(error)))
   );
 
   @Effect()
@@ -58,15 +71,23 @@ export class StudentEffects {
     ofType<UpdateStudent>(EStudentActions.UpdateStudent),
     map((action) => action.payload),
     switchMap((student) => this._studentService.updateStudent(student)),
-    switchMap((student) => of(new UpdateStudentSuccess(student)))
+    switchMap((student) => of(new UpdateStudentSuccess(student))),
+    catchError((error) => of(new AddError(error)))
   );
 
   @Effect()
   deleteStudent$ = this._actions.pipe(
     ofType<DeleteStudent>(EStudentActions.DeleteStudent),
     map((action) => action.payload),
-    switchMap((student) => this._studentService.deleteStudent(student)),
-    switchMap((student) => of(new DeleteStudentSuccess(student)))
+    switchMap((student) => {
+      try {
+        return this._studentService.deleteStudent(student);
+      } catch (e) {
+        return throwError(e);
+      }
+    }),
+    switchMap((student) => of(new DeleteStudentSuccess(student))),
+    catchError((error) => of(new AddError(error)))
   );
 
   constructor(
