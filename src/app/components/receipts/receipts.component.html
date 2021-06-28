@@ -1,1 +1,37 @@
-<p>receipts works!</p>
+<section>
+  <form
+    class="student-form"
+    [formGroup]="receiptForm"
+    (ngSubmit)="getRevenue()"
+  >
+    <mat-form-field appearance="standard">
+      <mat-label>Программа</mat-label>
+      <mat-select formControlName="program">
+        <mat-option
+          *ngFor="let program of getPrograms() | async"
+          [value]="program['Идентификатор программы']"
+        >
+          {{ program["Название программы"] }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>С</mat-label>
+      <input matInput placeholder="С" formControlName="from" />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>До</mat-label>
+      <input matInput placeholder="До" formControlName="to" />
+    </mat-form-field>
+
+    <button mat-button type="submit" [disabled]="this.isLoadUnavailable()">
+      Отобразить выручку
+    </button>
+  </form>
+</section>
+<section>
+  <mat-label>Сумма: </mat-label>
+  <mat-label>{{ getRevenueValue() | async }}</mat-label>
+</section>

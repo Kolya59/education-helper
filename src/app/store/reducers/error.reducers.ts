@@ -6,7 +6,7 @@ export const errorReducers = (
   action: ErrorActions
 ): IErrorState => {
   switch (action.type) {
-    case EErrorActions.AddErrorSuccess:
+    case EErrorActions.AddError:
       return {
         ...state,
         errors: [...state.errors, action.payload],

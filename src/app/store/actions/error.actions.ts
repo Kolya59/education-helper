@@ -4,17 +4,13 @@ import { IUser } from '../../models/user.model';
 
 export enum EErrorActions {
   AddError = '[Errors] AddError',
-  AddErrorSuccess = '[Errors] AddError Success',
 }
 
 export class AddError implements Action {
   public readonly type = EErrorActions.AddError;
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+    console.log(this.type);
+  }
 }
 
-export class AddErrorSuccess implements Action {
-  public readonly type = EErrorActions.AddErrorSuccess;
-  constructor(public payload: string) {}
-}
-
-export type ErrorActions = AddError | AddErrorSuccess;
+export type ErrorActions = AddError;

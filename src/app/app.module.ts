@@ -32,6 +32,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { ProgramEffects } from './store/effects/programs.effects';
+import { ReceiptEffects } from './store/effects/receipt.effects';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -66,7 +69,12 @@ const routes: Routes = [
     MatIconModule,
     MatTableModule,
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([UserEffects, StudentEffects]),
+    EffectsModule.forRoot([
+      UserEffects,
+      StudentEffects,
+      ProgramEffects,
+      ReceiptEffects,
+    ]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
@@ -78,6 +86,7 @@ const routes: Routes = [
     MatGridListModule,
     MatDividerModule,
     MatListModule,
+    MatSelectModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

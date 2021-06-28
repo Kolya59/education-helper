@@ -2,14 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../state/app.state';
-import {
-  catchError,
-  map,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
 import {
   AddStudent,
   AddStudentSuccess,
@@ -79,15 +73,15 @@ export class StudentEffects {
   deleteStudent$ = this._actions.pipe(
     ofType<DeleteStudent>(EStudentActions.DeleteStudent),
     map((action) => action.payload),
-    switchMap((student) => {
+    switchMap(async (student: IStudent) => {
+      let res: IStudent;
       try {
-        return this._studentService.deleteStudent(student);
-      } catch (e) {
-        return throwError(e);
+        res = await this._studentService.deleteStudent(student);
+      } catch (error) {
+        return of(new AddError(error));
       }
-    }),
-    switchMap((student) => of(new DeleteStudentSuccess(student))),
-    catchError((error) => of(new AddError(error)))
+      return of(new DeleteStudentSuccess(res));
+    })
   );
 
   constructor(
