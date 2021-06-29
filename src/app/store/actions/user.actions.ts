@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
-import { IUserState } from '../state/user.state';
 import { IUser } from '../../models/user.model';
 
 export enum EUserActions {
   GetUser = '[User] GetUser',
   GetUserSuccess = '[User] GetUser Success',
+
+  ClearUser = '[User] ClearUser',
 }
 
 export class GetUser implements Action {
@@ -16,4 +17,8 @@ export class GetUserSuccess implements Action {
   constructor(public payload: IUser) {}
 }
 
-export type UserActions = GetUser | GetUserSuccess;
+export class ClearUser implements Action {
+  public readonly type = EUserActions.ClearUser;
+}
+
+export type UserActions = GetUser | GetUserSuccess | ClearUser;

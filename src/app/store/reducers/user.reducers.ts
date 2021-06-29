@@ -11,6 +11,11 @@ export const userReducers = (
         ...state,
         currentUser: action.payload,
       };
+    case EUserActions.ClearUser:
+      return {
+        ...state,
+        currentUser: null,
+      };
     default:
       return state;
   }

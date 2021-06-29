@@ -1,60 +1,86 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <a routerLink="/" routerLinkActive="active"
-      >Система управления образовательным учреждением</a
-    >
+    <mat-nav-list>
+      <a mat-list-item routerLink="/" routerLinkActive="active"
+        >Система управления образовательным учреждением</a
+      >
+    </mat-nav-list>
     <span class="example-spacer"></span>
-    <div *ngIf="(user$ | async)?.status">
+    <div *ngIf="isAuth() | async">
       <label>Текущий пользователь</label>
-      <label>{{ (user$ | async)?.name }} ({{ (user$ | async)?.role }})</label>
-      <button mat-icon-button class="example-icon">
+      <label>{{ getUserName() | async }} ({{ getUserRole() | async }})</label>
+      <button mat-icon-button class="example-icon" (click)="exit()">
         <mat-icon>exit_to_app</mat-icon>
       </button>
     </div>
   </mat-toolbar-row>
 
-  <mat-toolbar-row *ngIf="(user$ | async)?.status">
-    <a
-      routerLink="/students"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Обущающиеся') | async"
-      >Обущающиеся</a
-    >
-    <a
-      routerLink="/teachers"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Преподаватели') | async"
-      >Преподаватели</a
-    >
-    <a
-      routerLink="/programs"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Программы обучения') | async"
-      >Программы обучения</a
-    >
-    <a
-      routerLink="/lessons"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Программы обучающихся') | async"
-      >Программы обучающихся</a
-    >
-    <a
-      routerLink="/schedule"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Запись на занятия') | async"
-      >Запись на занятия</a
-    >
-    <a
-      routerLink="/receipts"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Квитанции') | async"
-      >Квитанции</a
-    >
-    <a
-      routerLink="/companies"
-      routerLinkActive="active"
-      *ngIf="isAvailable('Компании') | async"
-      >Компании</a
-    >
+  <mat-toolbar-row class="nav-toolbar-row" *ngIf="isAuth() | async">
+    <mat-nav-list class="nav-list">
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/students"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Обущающиеся') | async"
+        >Обущающиеся</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/teachers"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Преподаватели') | async"
+        >Преподаватели</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/programs"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Программы обучения') | async"
+        >Программы обучения</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/lessons"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Программы обучающихся') | async"
+        >Программы обучающихся</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/schedule"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Запись на занятия') | async"
+        >Запись на занятия</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/receipts"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Квитанции') | async"
+        >Квитанции</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/companies"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Компании') | async"
+        >Компании</a
+      >
+      <a
+        class="nav-list-item"
+        mat-list-item
+        routerLink="/schedule"
+        routerLinkActive="active"
+        *ngIf="isAvailable('Расписание') | async"
+        >Расписание</a
+      >
+    </mat-nav-list>
   </mat-toolbar-row>
 </mat-toolbar>

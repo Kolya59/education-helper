@@ -1,13 +1,9 @@
 import { IUser } from '../../models/user.model';
 
 export interface IUserState {
-  currentUser: IUser;
+  currentUser: IUser | null;
 }
 
 export const initialUserState: IUserState = {
-  currentUser: {
-    name: '',
-    role: '',
-    status: false,
-  },
+  currentUser: null,
 };

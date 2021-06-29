@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../store/state/app.state';
-import { GetUser } from '../../store/actions/user.actions';
+import { ClearUser, GetUser } from '../../store/actions/user.actions';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   loginForm = new FormGroup({
     login: new FormControl('', Validators.required),
     password: new FormControl(''),
@@ -26,7 +26,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     console.log('LoginComponent INIT');
     localStorage.removeItem('token');
-    this.store.dispatch(new GetUser());
+    this.store.dispatch(new ClearUser());
+  }
+
+  ngAfterViewInit() {
+    this.store.dispatch(new ClearUser());
   }
 
   onSubmit(): void {
@@ -51,6 +55,7 @@ export class LoginComponent implements OnInit {
             return;
           }
           localStorage.setItem('token', resp.token);
+          this.store.dispatch(new GetUser());
           this.router.navigateByUrl('/students').then((r) => console.log(r));
         },
         (err: HttpErrorResponse) => {
