@@ -1,1 +1,99 @@
-<p>programs works!</p>
+<div>
+  <section>
+    <table mat-table class="program-table" [dataSource]="dataSource">
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        class="element-row"
+        (click)="selectProgram(row)"
+        [class.row-is-clicked]="isSelectedProgram(row) | async"
+        *matRowDef="let row; columns: columnsToDisplay"
+      ></tr>
+    </table>
+  </section>
+  <mat-divider></mat-divider>
+  <section>
+    <form
+      class="program-form"
+      [formGroup]="programForm"
+      (ngSubmit)="editProgram()"
+    >
+      <mat-form-field appearance="standard">
+        <mat-label>Название программы</mat-label>
+        <input
+          matInput
+          placeholder="Название программы"
+          formControlName="name"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Стоимость за месяц</mat-label>
+        <input
+          matInput
+          placeholder="Стоимость за месяц"
+          formControlName="cost"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Табельный номер преподавателя</mat-label>
+        <input
+          matInput
+          placeholder="Табельный номер преподавателя"
+          formControlName="teacherNumber"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Возрастная категория детей</mat-label>
+        <input
+          matInput
+          placeholder="Возрастная категория детей"
+          formControlName="category"
+        />
+      </mat-form-field>
+
+      <button
+        mat-button
+        (click)="addProgram()"
+        [disabled]="this.isAddUnavailable() | async"
+      >
+        Добавить программу
+      </button>
+      <button
+        mat-button
+        (click)="deleteProgram()"
+        [disabled]="this.isDeleteUnavailable() | async"
+      >
+        Удалить программу
+      </button>
+      <button
+        mat-button
+        type="submit"
+        [disabled]="this.isEditUnavailable() | async"
+      >
+        Обновить программу
+      </button>
+    </form>
+  </section>
+  <section>
+    <label>Журнал ошибок</label>
+    <mat-list>
+      <mat-divider>
+        <mat-list-item *ngFor="let error of this.getErrorsSub() | async">
+          {{ error }}
+        </mat-list-item>
+      </mat-divider>
+    </mat-list>
+    <label>{{ getErrorsSub() | async }}</label>
+  </section>
+</div>

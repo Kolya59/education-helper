@@ -1,7 +1,107 @@
+<div>
+  <section>
+    <table mat-table class="receipt-table" [dataSource]="dataSource">
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        class="element-row"
+        (click)="selectReceipt(row)"
+        [class.row-is-clicked]="isSelectedReceipt(row) | async"
+        *matRowDef="let row; columns: columnsToDisplay"
+      ></tr>
+    </table>
+  </section>
+  <mat-divider></mat-divider>
+  <section>
+    <form
+      class="receipt-form"
+      [formGroup]="receiptForm"
+      (ngSubmit)="editReceipt()"
+    >
+      <mat-form-field appearance="standard">
+        <mat-label>Идентификатор программы</mat-label>
+        <input
+          matInput
+          placeholder="Идентификатор программы"
+          formControlName="id"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Сумма</mat-label>
+        <input matInput placeholder="Сумма" formControlName="sum" />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Дата</mat-label>
+        <input matInput placeholder="Дата" formControlName="date" />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Код ребенка</mat-label>
+        <input
+          matInput
+          placeholder="Код ребенка"
+          formControlName="studentCode"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Код компании</mat-label>
+        <input
+          matInput
+          placeholder="Код компании"
+          formControlName="companyCode"
+        />
+      </mat-form-field>
+
+      <button
+        mat-button
+        (click)="addReceipt()"
+        [disabled]="this.isAddUnavailable() | async"
+      >
+        Добавить программу
+      </button>
+      <button
+        mat-button
+        (click)="deleteReceipt()"
+        [disabled]="this.isDeleteUnavailable() | async"
+      >
+        Удалить программу
+      </button>
+      <button
+        mat-button
+        type="submit"
+        [disabled]="this.isEditUnavailable() | async"
+      >
+        Обновить программу
+      </button>
+    </form>
+  </section>
+  <section>
+    <label>Журнал ошибок</label>
+    <mat-list>
+      <mat-divider>
+        <mat-list-item *ngFor="let error of this.getErrorsSub() | async">
+          {{ error }}
+        </mat-list-item>
+      </mat-divider>
+    </mat-list>
+    <label>{{ getErrorsSub() | async }}</label>
+  </section>
+</div>
 <section>
   <form
-    class="student-form"
-    [formGroup]="receiptForm"
+    class="revenue-form"
+    [formGroup]="revenueForm"
     (ngSubmit)="getRevenue()"
   >
     <mat-form-field appearance="standard">

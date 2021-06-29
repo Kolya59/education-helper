@@ -11,6 +11,44 @@ export const receiptReducers = (
         ...state,
         revenue: action.payload,
       };
+    case EReceiptActions.SelectReceiptSuccess:
+      return {
+        ...state,
+        selectedReceipt: action.payload,
+      };
+    case EReceiptActions.GetReceiptsSuccess:
+      return {
+        ...state,
+        receipts: action.payload,
+      };
+    case EReceiptActions.AddReceiptSuccess:
+      return <IReceiptState>{
+        ...state,
+        receipts: [
+          ...state.receipts,
+          {
+            ...action.payload,
+            'Номер квитанции': state.receipts.length,
+          },
+        ],
+      };
+    case EReceiptActions.UpdateReceiptSuccess:
+      return {
+        ...state,
+        receipts: state.receipts.map((v) => {
+          if (v['Номер квитанции'] == action.payload['Номер квитанции']) {
+            return action.payload;
+          }
+          return v;
+        }),
+      };
+    case EReceiptActions.DeleteReceiptSuccess:
+      return {
+        ...state,
+        receipts: state.receipts.filter((v) => {
+          return v['Номер квитанции'] != action.payload['Номер квитанции'];
+        }),
+      };
     default:
       return state;
   }

@@ -1,1 +1,92 @@
-<p>teachers works!</p>
+<div>
+  <section>
+    <table mat-table class="teacher-table" [dataSource]="dataSource">
+      <ng-container
+        [matColumnDef]="column"
+        *ngFor="let column of columnsToDisplay"
+      >
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        class="element-row"
+        (click)="selectTeacher(row)"
+        [class.row-is-clicked]="isSelectedTeacher(row) | async"
+        *matRowDef="let row; columns: columnsToDisplay"
+      ></tr>
+    </table>
+  </section>
+  <mat-divider></mat-divider>
+  <section>
+    <form
+      class="teacher-form"
+      [formGroup]="teacherForm"
+      (ngSubmit)="editTeacher()"
+    >
+      <mat-form-field appearance="standard">
+        <mat-label>Фамилия</mat-label>
+        <input matInput placeholder="Фамилия" formControlName="surname" />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Имя</mat-label>
+        <input matInput placeholder="Имя" formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Отчество</mat-label>
+        <input matInput placeholder="Отчество" formControlName="patronymic" />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Стаж в образовательной деятельности</mat-label>
+        <input
+          matInput
+          placeholder="Стаж в образовательной деятельности"
+          formControlName="experience"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="standard">
+        <mat-label>Квалификация</mat-label>
+        <input matInput placeholder="Квалификация" formControlName="category" />
+      </mat-form-field>
+
+      <button
+        mat-button
+        (click)="addTeacher()"
+        [disabled]="this.isAddUnavailable() | async"
+      >
+        Добавить преподавателя
+      </button>
+      <button
+        mat-button
+        (click)="deleteTeacher()"
+        [disabled]="this.isDeleteUnavailable() | async"
+      >
+        Удалить преподавателя
+      </button>
+      <button
+        mat-button
+        type="submit"
+        [disabled]="this.isEditUnavailable() | async"
+      >
+        Обновить преподавателя
+      </button>
+    </form>
+  </section>
+  <section>
+    <label>Журнал ошибок</label>
+    <mat-list>
+      <mat-divider>
+        <mat-list-item *ngFor="let error of this.getErrorsSub() | async">
+          {{ error }}
+        </mat-list-item>
+      </mat-divider>
+    </mat-list>
+    <label>{{ getErrorsSub() | async }}</label>
+  </section>
+</div>

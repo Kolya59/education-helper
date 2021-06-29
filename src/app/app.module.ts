@@ -33,8 +33,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { ProgramEffects } from './store/effects/programs.effects';
+import { ProgramEffects } from './store/effects/program.effects';
 import { ReceiptEffects } from './store/effects/receipt.effects';
+import { TeacherEffects } from './store/effects/teacher.effects';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -74,6 +75,7 @@ const routes: Routes = [
       StudentEffects,
       ProgramEffects,
       ReceiptEffects,
+      TeacherEffects,
     ]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     StoreDevtoolsModule.instrument({

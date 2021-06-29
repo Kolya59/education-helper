@@ -16,9 +16,9 @@ import {
   SelectProgramSuccess,
   UpdateProgram,
   UpdateProgramSuccess,
-} from '../actions/programs.actions';
+} from '../actions/program.actions';
 import { IProgram } from '../../models/program.model';
-import { selectProgramList } from '../selectors/programs.selectors';
+import { selectProgramList } from '../selectors/program.selectors';
 import { ProgramService } from '../../services/program/program.service';
 import { AddError } from '../actions/error.actions';
 

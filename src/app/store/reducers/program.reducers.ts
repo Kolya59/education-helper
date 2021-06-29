@@ -1,5 +1,5 @@
-import { initialProgramState, IProgramState } from '../state/programs.state';
-import { EProgramActions, ProgramActions } from '../actions/programs.actions';
+import { initialProgramState, IProgramState } from '../state/program.state';
+import { EProgramActions, ProgramActions } from '../actions/program.actions';
 
 export const programReducers = (
   state = initialProgramState,

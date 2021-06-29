@@ -1,6 +1,6 @@
 import { IAppState } from '../state/app.state';
 import { createSelector } from '@ngrx/store';
-import { IProgramState } from '../state/programs.state';
+import { IProgramState } from '../state/program.state';
 
 const selectPrograms = (state: IAppState) => state.program;
 
