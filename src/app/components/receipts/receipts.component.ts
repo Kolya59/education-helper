@@ -119,16 +119,6 @@ export class ReceiptsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  isDeleteUnavailable(): Observable<boolean> {
-    return this.hasSelectedReceipt().pipe(map((next) => !next));
-  }
-
-  isEditUnavailable(): Observable<boolean> {
-    return this.hasSelectedReceipt().pipe(
-      map((next) => !next || !this.receiptForm.valid)
-    );
-  }
-
   addReceipt() {
     console.log('add', this.receiptForm.value);
     this.store.dispatch(
@@ -142,41 +132,6 @@ export class ReceiptsComponent implements OnInit, AfterViewInit {
       })
     );
     this.loadReceipts();
-  }
-
-  editReceipt() {
-    console.log('edit', this.receiptForm.value);
-    this.store
-      .select(selectSelectedReceipt)
-      .pipe(take(1))
-      .subscribe((next) => {
-        if (next) {
-          this.store.dispatch(
-            new UpdateReceipt({
-              'Номер квитанции': next['Номер квитанции'],
-              'Идентификатор программы': this.receiptForm.value.id,
-              Сумма: this.receiptForm.value.sum,
-              Дата: this.receiptForm.value.date,
-              'Код ребенка': this.receiptForm.value.studentCode,
-              'Код компании': this.receiptForm.value.companyCode,
-            })
-          );
-          this.loadReceipts();
-        }
-      });
-  }
-
-  deleteReceipt() {
-    console.log('delete', this.receiptForm.value);
-    this.store
-      .select(selectSelectedReceipt)
-      .pipe(take(1))
-      .subscribe((next) => {
-        if (next) {
-          this.store.dispatch(new DeleteReceipt(next));
-          this.loadReceipts();
-        }
-      });
   }
 
   private loadReceipts(): void {

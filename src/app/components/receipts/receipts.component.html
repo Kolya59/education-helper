@@ -21,11 +21,7 @@
   </section>
   <mat-divider></mat-divider>
   <section>
-    <form
-      class="receipt-form"
-      [formGroup]="receiptForm"
-      (ngSubmit)="editReceipt()"
-    >
+    <form class="receipt-form" [formGroup]="receiptForm">
       <mat-form-field appearance="standard">
         <mat-label>Идентификатор программы</mat-label>
         <input
@@ -68,21 +64,7 @@
         (click)="addReceipt()"
         [disabled]="this.isAddUnavailable() | async"
       >
-        Добавить программу
-      </button>
-      <button
-        mat-button
-        (click)="deleteReceipt()"
-        [disabled]="this.isDeleteUnavailable() | async"
-      >
-        Удалить программу
-      </button>
-      <button
-        mat-button
-        type="submit"
-        [disabled]="this.isEditUnavailable() | async"
-      >
-        Обновить программу
+        Добавить квитанцию
       </button>
     </form>
   </section>
