@@ -16,14 +16,14 @@ import { map } from 'rxjs/operators';
 export class MenuComponent implements OnInit, AfterViewInit {
   allowed = {
     admin: [
-      'Обущающиеся',
+      'Обучающиеся',
       'Программы обучающихся',
       'Запись на занятия',
       'Расписание',
       'Квитанции',
     ],
     director: [
-      'Обущающиеся',
+      'Обучающиеся',
       'Преподаватели',
       'Программы обучения',
       'Квитанции',

@@ -23,7 +23,7 @@ export const studentReducers = (
           ...state.students,
           {
             ...action.payload,
-            'Код ребенка': state.students.length,
+            'Код ребенка': state.students.length + 1,
           },
         ],
       };

@@ -23,7 +23,7 @@ export const teacherReducers = (
           ...state.teachers,
           {
             ...action.payload,
-            'Табельный номер': state.teachers.length,
+            'Табельный номер': state.teachers.length + 1,
           },
         ],
       };

@@ -28,7 +28,7 @@ export const receiptReducers = (
           ...state.receipts,
           {
             ...action.payload,
-            'Номер квитанции': state.receipts.length,
+            'Номер квитанции': state.receipts.length + 1,
           },
         ],
       };

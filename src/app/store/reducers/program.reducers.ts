@@ -23,7 +23,7 @@ export const programReducers = (
           ...state.programs,
           {
             ...action.payload,
-            'Идентификатор программы': state.programs.length,
+            'Идентификатор программы': state.programs.length + 1,
           },
         ],
       };
