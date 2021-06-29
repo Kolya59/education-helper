@@ -14,11 +14,47 @@
   </mat-toolbar-row>
 
   <mat-toolbar-row *ngIf="(user$ | async)?.status">
-    <a routerLink="/students" routerLinkActive="active">Обущающиеся</a>
-    <a routerLink="/teachers" routerLinkActive="active">Преподаватели</a>
-    <a routerLink="/programs" routerLinkActive="active">Программы обучения</a>
-    <a routerLink="/lessons" routerLinkActive="active">Программы обучающихся</a>
-    <a routerLink="/schedule" routerLinkActive="active">Запись на занятия</a>
-    <a routerLink="/receipts" routerLinkActive="active">Квитанции</a>
+    <a
+      routerLink="/students"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Обущающиеся') | async"
+      >Обущающиеся</a
+    >
+    <a
+      routerLink="/teachers"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Преподаватели') | async"
+      >Преподаватели</a
+    >
+    <a
+      routerLink="/programs"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Программы обучения') | async"
+      >Программы обучения</a
+    >
+    <a
+      routerLink="/lessons"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Программы обучающихся') | async"
+      >Программы обучающихся</a
+    >
+    <a
+      routerLink="/schedule"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Запись на занятия') | async"
+      >Запись на занятия</a
+    >
+    <a
+      routerLink="/receipts"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Квитанции') | async"
+      >Квитанции</a
+    >
+    <a
+      routerLink="/companies"
+      routerLinkActive="active"
+      *ngIf="isAvailable('Компании') | async"
+      >Компании</a
+    >
   </mat-toolbar-row>
 </mat-toolbar>

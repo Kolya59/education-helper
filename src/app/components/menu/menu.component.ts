@@ -2,10 +2,11 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { GetUser } from '../../store/actions/user.actions';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IAppState } from '../../store/state/app.state';
 import { selectCurrentUser } from '../../store/selectors/user.selectors';
 import { IUser } from '../../models/user.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -14,6 +15,21 @@ import { IUser } from '../../models/user.model';
 })
 export class MenuComponent implements OnInit, AfterViewInit {
   user$: Observable<IUser>;
+  allowed = {
+    admin: [
+      'Обущающиеся',
+      'Программы обучающихся',
+      'Запись на занятия',
+      'Расписание',
+      'Квитанции',
+    ],
+    director: [
+      'Обущающиеся',
+      'Преподаватели',
+      'Программы обучения',
+      'Квитанции',
+    ],
+  };
 
   constructor(private router: Router, private store: Store<IAppState>) {
     this.user$ = store.pipe(select(selectCurrentUser));
@@ -25,5 +41,23 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.store.dispatch(new GetUser());
+  }
+
+  isAvailable(action: string): Observable<boolean> {
+    return this.store.pipe(
+      select(selectCurrentUser),
+      map((user: IUser): string => {
+        return user.role;
+      }),
+      map((role: string): boolean => {
+        if (role == 'admin') {
+          return this.allowed.admin.includes(action);
+        }
+        if (role == 'director') {
+          return this.allowed.director.includes(action);
+        }
+        return false;
+      })
+    );
   }
 }
